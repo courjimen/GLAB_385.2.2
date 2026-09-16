@@ -59,8 +59,22 @@ def edit_movie():
         print(f'❌ Error: {e}')
 
 # - [ ] Delete a movie:
+# declare delete movie function
+def delete_movie():
+    # ask user for input to get movie deletion
+    title = input('What movie do you want to delete? ')
+    # error handle if movie doesnt exist
+    try:
+       #if movie doesnt exist
+       if title not in moviedb:
+            raise KeyError(f'{title} not found in database.')
 
+       del moviedb[title]
 
+       print(f'Successfully deleted {title} from database ✅')
+    except Exception as e:
+        print(f'❌ Error: {e}')
+     
 # - [ ] View all movies:
 def show_all():
     print("⭐️ All movies in database ⭐️")
@@ -106,7 +120,7 @@ while True:
     elif choice == "4":
         edit_movie()
     elif choice == "5":
-        print('Deleting movie')
+        delete_movie()
     elif choice == '6':
         print('Searching for movie')
     elif choice == '7':
