@@ -1,10 +1,9 @@
-# # Movie DB Dictionary Project
-
+# Movie DB Dictionary Project
+import json
 # Movie Dictionary
 moviedb = {}
 
-
-# - [ ] Add a new movie:
+# - [ ] ADD NEW MOVIE:
 def add_movie():
     # grabbed user data and saved into variables
     print("Adding a movie 🍿")
@@ -25,7 +24,7 @@ def add_movie():
     print(f"Success 🎉: {title} added!")
 
 
-# - [ ] Edit a movie:
+# - [ ] EDIT A MOVIE:
 def edit_movie():
     #Ask user what movie to edit
     title = input('Enter the movie title you want to update: ')
@@ -58,7 +57,7 @@ def edit_movie():
     except Exception as e:
         print(f'❌ Error: {e}')
 
-# - [ ] Delete a movie:
+# - [ ] DELETE A MOVIE:
 # declare delete movie function
 def delete_movie():
     # ask user for input to get movie deletion
@@ -75,7 +74,7 @@ def delete_movie():
     except Exception as e:
         print(f'❌ Error: {e}')
      
-# - [ ] View all movies:
+# - [ ] VIEW ALL MOVIES:
 def show_all():
     print("⭐️ All movies in database ⭐️")
     print("===============")
@@ -86,17 +85,56 @@ def show_all():
         print("===============")
 
 
-# - [ ] Search movies:
+# - [ ] SEARCH MOVIES:
+# define a search funct
+def search_movies():
+    #Prompted user for search criteria
+    print('🔎 Search Movies in DB')
+    criteria = input('Enter search criteria: ')
+    matches = [] #stores saved data into array
 
-# - [ ] Save and load data:
+    # loop through my db to find matches
+    for movie, info in moviedb.items():
+        #use control flow statement w/membership operator to find matches
+        if criteria in movie or criteria in info['director'] or criteria in info['actors'] or criteria in info['genre']:
+            matches.append(movie) # add title to list of found movies
 
-# - [ ] Error handling:
+        # if movie(s) found
+        if matches:
+            print(' ✅ Matches Found:')
+            for movie in matches:
+                print(f'{movie}: {moviedb[movie]}')
+        # else no movies found
+        else:
+            print(' ❌ No matches found.')
+
+# - [ ] save_data - put db into a file
+def save_data():
+    #ask file name to create
+    filename = input('Enter the filename to save to: ')
+    #open file, mode is write "w"
+    with open(f'data/{filename}.json', 'w') as f:
+        #dump data into external file
+        json.dump(moviedb, f)
+    print('🎉 Success, data saved.')
+
+# - [ ] Load data - pull prev db file into this program
+# define load_data func
+def load_data():
+    #ask user where to import file from
+    location = input('Enter the name of import file: ')
+    #try to open the file
+    with open(f'data/{location}.json', 'r') as f:
+        #save file content to temp database in app
+        data = json.load(f)
+        global moviedb
+        moviedb = data
+    #print success message
+    print('✅ Successfully loaded your file!')
 
 # - [ ] Data validation:
 # save_data - put db to a file
 # load_data - pull previous db file into this program
-
-
 while True:
     print("==== 🎬 Movie Database MGMT System 🎬 ====")
     print("1. Exit")
@@ -122,9 +160,9 @@ while True:
     elif choice == "5":
         delete_movie()
     elif choice == '6':
-        print('Searching for movie')
+        search_movies()
     elif choice == '7':
-        print('Saving data to file')
+        save_data()
     elif choice == '8':
         print('Loading dat from file')
     else:
